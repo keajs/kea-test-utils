@@ -6,4 +6,4 @@
 
 # kea-test-utils
 
-Read more here https://github.com/PostHog/posthog/pull/5990
+[Read the guide here](https://kea.js.org/docs/guide/testing)
