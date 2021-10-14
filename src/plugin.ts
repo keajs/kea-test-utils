@@ -8,7 +8,7 @@ export function testUtilsContext(): PluginContext {
 export function resetTestUtilsContext(): void {
   setPluginContext('testUtils', {
     recordedHistory: [],
-    historyIndex: 0,
+    historyIndex: -1,
     ranActions: false,
   } as PluginContext)
 }

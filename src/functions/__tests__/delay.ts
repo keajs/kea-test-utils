@@ -1,7 +1,15 @@
 import { delay as _delay } from '../delay'
+import { kea, resetContext } from 'kea'
+import { testUtilsPlugin } from '../../plugin'
 
 describe('functions/delay', () => {
-  const logic = Symbol('stable symbol') as any
+  const logic = kea({ actions: { run: true } })
+
+  beforeEach(() => {
+    resetContext({ plugins: [testUtilsPlugin()] })
+    logic.mount()
+  })
+
   describe('sync', () => {
     const delay = _delay.sync!
     it('returns async operations', () => {

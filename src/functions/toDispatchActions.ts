@@ -50,10 +50,8 @@ export const toDispatchActions: ExpectFunction<ActionToDispatch[]> = {
 export function tryToSearchActions(logic: LogicWrapper | BuiltLogic, actions: ActionToDispatch[]): ActionToDispatch[] {
   const actionsToSearch = [...actions]
   const { recordedHistory, historyIndex } = testUtilsContext()
-  const actionPointer = historyIndex || -1
 
-  for (let i = actionPointer + 1; i < recordedHistory.length; i++) {
-    testUtilsContext().historyIndex = i
+  for (let i = historyIndex + 1; i < recordedHistory.length; i++) {
     const actionSearch = actionsToSearch[0]
     const recordedAction = recordedHistory[i]
     if (
@@ -63,6 +61,7 @@ export function tryToSearchActions(logic: LogicWrapper | BuiltLogic, actions: Ac
       (typeof actionSearch === 'function' && actionSearch(recordedAction.action)) ||
       (typeof actionSearch === 'object' && objectsEqual(recordedAction.action, actionSearch))
     ) {
+      testUtilsContext().historyIndex = i
       actionsToSearch.shift()
       if (actionsToSearch.length === 0) {
         break

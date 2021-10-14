@@ -24,6 +24,7 @@ export interface ExpectLogicMethods {
   toMatchValues: ((values: Record<string, any>) => ExpectLogicMethods) &
     ((logic: BuiltLogic | LogicWrapper, values: Record<string, any>) => ExpectLogicMethods)
   toMount: (otherLogics?: BuiltLogic | LogicWrapper | (BuiltLogic | LogicWrapper)[]) => ExpectLogicMethods
+  clearHistory: () => ExpectLogicMethods
   printActions: (options?: PrintActionsOptions) => ExpectLogicMethods
   delay: (ms: number) => ExpectLogicMethods
 }
