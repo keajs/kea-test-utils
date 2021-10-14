@@ -10,7 +10,6 @@ export const toNotHaveDispatchedActions: ExpectFunction<ActionToDispatch[]> = {
       throw new Error(`Found actions when we shouldn't have!`)
     }
 
-    testUtilsContext().historyIndex = testUtilsContext().recordedHistory.length
     testUtilsContext().ranActions = true
   },
 }
