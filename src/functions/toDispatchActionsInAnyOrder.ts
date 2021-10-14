@@ -53,7 +53,7 @@ export interface NotFoundActions {
 export function tryToSearchActions(logic: LogicWrapper | BuiltLogic, actions: ActionToDispatch[]): NotFoundActions {
   const actionsToSearch = [...actions]
   const { recordedHistory, historyIndex } = testUtilsContext()
-  const actionPointer = historyIndex || -1
+  const actionPointer = historyIndex
 
   const foundMap = new Map<ActionToDispatch, number>()
   const alreadyFoundAtIndex = new Set<number>()

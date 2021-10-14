@@ -21,7 +21,7 @@ export interface PluginContext {
 
 export interface AsyncOperation {
   operation: string
-  logic: BuiltLogic | LogicWrapper
+  logic: BuiltLogic | LogicWrapper | undefined
   payload: any
 }
 

@@ -5,6 +5,7 @@ import { toFinishAllListeners } from './toFinishAllListeners'
 import { toFinishListeners } from './toFinishListeners'
 import { toMatchValues } from './toMatchValues'
 import { toMount } from './toMount'
+import { clearHistory } from './clearHistory'
 import { printActions, PrintActionsOptions } from './printActions'
 import { delay } from './delay'
 import { ActionToDispatch, ExpectFunction } from '../types'
@@ -37,6 +38,9 @@ export const functions: Record<string, ExpectFunction<any>> = {
   toFinishListeners,
   toMatchValues,
   toMount,
+  clearHistory,
   printActions,
   delay,
 }
+
+export const operationsWithoutLogic = ['toMount', 'clearHistory', 'printActions', 'delay', 'toFinishAllListeners']

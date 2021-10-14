@@ -1,6 +1,6 @@
 import { BuiltLogic, LogicWrapper } from 'kea'
 import { AsyncOperation } from './types'
-import { ExpectLogicMethods, functions } from './functions'
+import { ExpectLogicMethods, functions, operationsWithoutLogic } from './functions'
 import { testUtilsContext } from './plugin'
 
 function isLogicBuildOrWrapper(logic: any): logic is BuiltLogic | LogicWrapper {
@@ -43,8 +43,8 @@ export function expectLogic<L extends BuiltLogic | LogicWrapper>(
           for (const { logic: asyncLogic, operation, payload } of asyncOperations) {
             if (operation in functions) {
               const { common, async } = await functions[operation as keyof typeof functions]
-              common?.(asyncLogic, payload)
-              await async?.(asyncLogic, payload)
+              common?.(asyncLogic!, payload)
+              await async?.(asyncLogic!, payload)
             } else {
               throw new Error(`Running invalid async function "${operation}"`)
             }
@@ -56,16 +56,16 @@ export function expectLogic<L extends BuiltLogic | LogicWrapper>(
 
     for (const [functionKey, { sync, common }] of Object.entries(functions)) {
       response[functionKey as keyof Omit<ExpectLogicMethods, 'then'>] = (
-        arg1: LogicWrapper | BuiltLogic | any,
+        arg1?: LogicWrapper | BuiltLogic | any,
         arg2?: any,
       ) => {
-        let functionLogic: LogicWrapper | BuiltLogic
+        let functionLogic: LogicWrapper | BuiltLogic | undefined
         let payload: any
 
         if (isLogicBuildOrWrapper(arg1)) {
           functionLogic = arg1
           payload = arg2
-        } else if (!logicToExpect) {
+        } else if (!logicToExpect && !operationsWithoutLogic.includes(functionKey)) {
           throw new Error(`Without "logic" in "expectLogic(logic)", you must pass it to each function separately`)
         } else {
           functionLogic = logicToExpect
@@ -75,8 +75,8 @@ export function expectLogic<L extends BuiltLogic | LogicWrapper>(
         if (asyncMode) {
           asyncOperations.push({ operation: functionKey, logic: functionLogic, payload })
         } else {
-          common?.(functionLogic, payload)
-          const syncResponse = sync?.(functionLogic, payload)
+          common?.(functionLogic!, payload)
+          const syncResponse = sync?.(functionLogic!, payload)
           if (syncResponse) {
             asyncMode = true
             asyncOperations.push(...syncResponse)
