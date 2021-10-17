@@ -34,3 +34,11 @@ class Truth extends AsymmetricMatcher<(value: any) => boolean> {
 }
 
 export const truth = (sample: (value: any) => boolean): Truth => new Truth(sample)
+
+export function partial<T>(objectOrArray: T): T {
+  if (Array.isArray(objectOrArray)) {
+    return expect.arrayContaining(objectOrArray)
+  } else {
+    return expect.objectContaining(objectOrArray)
+  }
+}
