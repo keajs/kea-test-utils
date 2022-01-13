@@ -24,8 +24,10 @@ export const toFinishListeners: ExpectFunction<number> = {
             .filter(([l]) => l === logic)
             .map(([l, k]) => `- ${l.pathString} -> ${k}`)
           const count = logicNames.length
-          console.error(`Still running ${count} listener${count === 1 ? '' : 's'}:\n${logicNames.join('\n')}`)
-          throw new Error(`Timed out waiting for listeners in "${logic.pathString}".`)
+          if (count > 0) {
+            console.error(`Still running ${count} listener${count === 1 ? '' : 's'}:\n${logicNames.join('\n')}`)
+            throw new Error(`Timed out waiting for listeners in "${logic.pathString}".`)
+          }
         }),
         Promise.all(promises).catch((e) => {
           if (!isBreakpoint(e)) {

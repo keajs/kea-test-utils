@@ -20,11 +20,13 @@ export const toFinishAllListeners: ExpectFunction<number> = {
       await Promise.race([
         delay(ms || LISTENER_FINISH_WAIT_TIMEOUT).then(() => {
           const count = pendingPromises.size
-          const logicNames = Array.from(pendingPromises.values())
-            .map(([l, k]) => `- ${l.pathString} -> ${k}`)
-            .join('\n')
-          console.error(`Still running ${count} listener${count === 1 ? '' : 's'}:\n${logicNames}`)
-          throw new Error(`Timed out waiting for all listeners.`)
+          if (count > 0) {
+            const logicNames = Array.from(pendingPromises.values())
+              .map(([l, k]) => `- ${l.pathString} -> ${k}`)
+              .join('\n')
+            console.error(`Still running ${count} listener${count === 1 ? '' : 's'}:\n${logicNames}`)
+            throw new Error(`Timed out waiting for all listeners.`)
+          }
         }),
         Promise.all(promises),
       ]).catch((e) => {
