@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.2.2 - 2022-01-13
+
+- Disable "Still running 0 listeners:"  noise.
+
 ## 0.2.1 - 2021-10-17
 
 - Add `partial` helper that combines both `expect.objectContains` and `expect.arrayContains` into one short function.
