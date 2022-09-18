@@ -1,11 +1,13 @@
-import { kea, resetContext } from 'kea'
+import { kea, MakeLogicType, resetContext } from 'kea'
 import { expectLogic } from '../expect'
 import { testUtilsPlugin } from '../plugin'
 
-describe('functions/delay', () => {
-  const logic = kea({
-    actions: { setValue: (value: string) => ({ value }) },
-    reducers: { bla: ['value', { setValue: (_: any, { value }: any) => value }] },
+type logicType = MakeLogicType<{ bla: string }, { setValue: (value: string) => { value: string } }>
+
+describe('expect', () => {
+  const logic = kea<logicType>({
+    actions: { setValue: (value) => ({ value }) },
+    reducers: { bla: ['value', { setValue: (_, { value }) => value }] },
   })
 
   beforeEach(() => {
