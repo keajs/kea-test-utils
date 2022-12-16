@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.2.3 - 2022-12-16
+
+- Work with Kea 3.1.0
+
 ## 0.2.2 - 2022-01-13
 
 - Disable "Still running 0 listeners:"  noise.

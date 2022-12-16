@@ -59,7 +59,9 @@ export function tryToSearchActions(logic: LogicWrapper | BuiltLogic, actions: Ac
         (recordedAction.action.type === actionSearch ||
           (logic.actionTypes[actionSearch] && recordedAction.action.type === logic.actionTypes[actionSearch]))) ||
       (typeof actionSearch === 'function' && actionSearch(recordedAction.action)) ||
-      (typeof actionSearch === 'object' && objectsEqual(recordedAction.action, actionSearch))
+      (typeof actionSearch === 'object' &&
+        objectsEqual(recordedAction.action.type, actionSearch.type) &&
+        objectsEqual(recordedAction.action.payload, actionSearch.payload))
     ) {
       testUtilsContext().historyIndex = i
       actionsToSearch.shift()
