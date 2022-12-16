@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.2.4 - 2022-12-16
+
+- Work with Kea 3.1.2
+
 ## 0.2.3 - 2022-12-16
 
 - Work with Kea 3.1.0

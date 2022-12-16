@@ -35,7 +35,7 @@ export const toDispatchActionsInAnyOrder: ExpectFunction<ActionToDispatch[]> = {
               ? waitForAction(logic.actionTypes[act] || act)
               : typeof act === 'function'
               ? waitForCondition(act)
-              : waitForCondition((a) => objectsEqual(a, act)),
+              : waitForCondition((a) => objectsEqual({ ...a, dispatchId: 1 }, { ...act, dispatchId: 1 })),
           ),
         ),
       ])
@@ -67,7 +67,8 @@ export function tryToSearchActions(logic: LogicWrapper | BuiltLogic, actions: Ac
           (recordedAction.action.type === action ||
             (logic.actionTypes[action] && recordedAction.action.type === logic.actionTypes[action]))) ||
         (typeof action === 'function' && action(recordedAction.action)) ||
-        (typeof action === 'object' && objectsEqual(recordedAction.action, action))
+        (typeof action === 'object' &&
+          objectsEqual({ ...recordedAction.action, dispatchId: 1 }, { ...action, dispatchId: 1 }))
       ) {
         foundMap.set(action, i)
         alreadyFoundAtIndex.add(i)

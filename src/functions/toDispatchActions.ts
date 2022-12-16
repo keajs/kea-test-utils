@@ -38,7 +38,7 @@ export const toDispatchActions: ExpectFunction<ActionToDispatch[]> = {
             ? waitForAction(logic.actionTypes[notFound] || notFound)
             : typeof notFound === 'function'
             ? waitForCondition(notFound)
-            : waitForCondition((a) => objectsEqual(a, notFound)),
+            : waitForCondition((a) => objectsEqual({ ...a, dispatchId: 1 }, { ...notFound, dispatchId: 1 })),
         ])
         // will not get called if the timeout throws above, otherwise it was found, and update the historyIndex
         tryToSearchActions(logic, [action])
@@ -60,8 +60,7 @@ export function tryToSearchActions(logic: LogicWrapper | BuiltLogic, actions: Ac
           (logic.actionTypes[actionSearch] && recordedAction.action.type === logic.actionTypes[actionSearch]))) ||
       (typeof actionSearch === 'function' && actionSearch(recordedAction.action)) ||
       (typeof actionSearch === 'object' &&
-        objectsEqual(recordedAction.action.type, actionSearch.type) &&
-        objectsEqual(recordedAction.action.payload, actionSearch.payload))
+        objectsEqual({ ...recordedAction.action, dispatchId: 1 }, { ...actionSearch, dispatchId: 1 }))
     ) {
       testUtilsContext().historyIndex = i
       actionsToSearch.shift()
