@@ -6,4 +6,4 @@
 
 # kea-test-utils
 
-[Read the guide here](https://kea.js.org/docs/guide/testing)
+[Read the guide here](https://keajs.org/docs/intro/testing)
